@@ -1,1 +1,1 @@
-# Djnago Project using HTMX
+# Django Project using HTMX
