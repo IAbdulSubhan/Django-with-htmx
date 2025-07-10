@@ -28,8 +28,8 @@
     hx-trigger="keyup delay:500ms"
     hx-target="#contact-list"
     hx-indicator="#indicator"
-    
-    />
+    hx-on::before-request="document.getElementById('contacts-list').style.opacity = 0.4;"
+    hx-on::after-request="document.getElementById('contacts-list').style.opacity = 1.0;" />
     {% include "partials/spinner.html" %}
   </label>
   {% include "partials/contact-list.html" %}
