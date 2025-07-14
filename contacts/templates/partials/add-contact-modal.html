@@ -1,8 +1,10 @@
 {% comment %} rendering form {%endcomment %}
+{% comment %} https://htmx.org/attributes/hx-post/ => to send htmx post request {% endcomment %}
+
 <dialog id="contact_modal" class="modal">
   <div class="modal-box">
     <h3 class="font-bold text-lg mb-4">Add New Contact</h3>
-    <form action="POST" class="mb-4 mt-4">
+    <form hx-post={% url "create_contact" %} class="mb-4 mt-4">
       {% csrf_token %}
       <div class="form-control w-full">
         <label class="label">

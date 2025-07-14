@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from . models import *
 from django.db.models import Q
 from contacts.forms import *
-
+from django.views.decorators.http import require_http_methods
 
 
 # Create your views here.
@@ -31,4 +31,11 @@ def search_contact(request):
 
     return render(request, 'partials/contact-list.html', context)
 
+@login_required
+@require_http_methods(['POST'])
 def create_contact(request):
+    form = ContactForm(request.POST)
+    if form.is_valid():
+        contact = form.save(commit=False) #dont save form directly associate the user with this first
+        contact.user = request.user
+        contact.save()  
