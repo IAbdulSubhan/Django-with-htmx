@@ -32,6 +32,13 @@
     hx-on::after-request="document.getElementById('contacts-list').style.opacity = 1.0;" />
     {% include "partials/spinner.html" %}
   </label>
+
+  {% comment %} rendering form {% endcomment %}
+  <form action="POST" class="mb-4 mt-4">
+    {% csrf_token %}
+  {{form}}
+  </form>
+
   {% include "partials/contact-list.html" %}
 </div>
 

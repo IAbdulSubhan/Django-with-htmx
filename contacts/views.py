@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from . models import *
 from django.db.models import Q
+from contacts.forms import *
 
 
 # Create your views here.
@@ -9,7 +10,9 @@ from django.db.models import Q
 def index(request):
     contacts = request.user.contacts.all().order_by('-created_at')
     print(contacts)
-    context = {"contacts": contacts}
+    context = {"contacts": contacts,
+               "form": ContactForm()
+               }
     return render(request, 'contacts.html', context)
 
 
