@@ -5,6 +5,7 @@ from django.db.models import Q
 from contacts.forms import *
 
 
+
 # Create your views here.
 @login_required
 def index(request):
@@ -29,3 +30,5 @@ def search_contact(request):
     context = {'contacts': contacts}
 
     return render(request, 'partials/contact-list.html', context)
+
+def create_contact(request):
