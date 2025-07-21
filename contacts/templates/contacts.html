@@ -1,8 +1,17 @@
-{% extends 'base.html' %} 
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <div>
-  <h1 class="text-4xl text-success mb-4">Contact Manager</h1>
+  <div class="flex justify-between">
+    <h1 class="text-4xl text-success mb-4">Contact Manager</h1>
+    <button
+      class="btn btn-soft btn-secondary mb-4"
+      onclick="contact_modal.showModal()"
+    >
+      Add New Contact
+    </button>
+  </div>
+
+  {% include "partials/add-contact-modal.html" %}
   <label class="input input-bordered flex items-center gap-2 mb-2">
     <svg
       class="h-[1em] opacity-50"
@@ -20,18 +29,21 @@
         <path d="m21 21-4.3-4.3"></path>
       </g>
     </svg>
-    <input 
-    type="text" 
-    name='search' 
-    required placeholder="Search" 
-    hx-get = '{% url "search_contact" %}'
-    hx-trigger="keyup delay:500ms"
-    hx-target="#contact-list"
-    hx-indicator="#indicator"
-    hx-on::before-request="document.getElementById('contacts-list').style.opacity = 0.4;"
-    hx-on::after-request="document.getElementById('contacts-list').style.opacity = 1.0;" />
+    <input
+      type="text"
+      name="search"
+      required
+      placeholder="Search"
+      hx-get='{% url "search_contact" %}'
+      hx-trigger="keyup delay:500ms"
+      hx-target="#contact-list"
+      hx-indicator="#indicator"
+      hx-on::before-request="document.getElementById('contacts-list').style.opacity = 0.4;"
+      hx-on::after-request="document.getElementById('contacts-list').style.opacity = 1.0;"
+    />
     {% include "partials/spinner.html" %}
   </label>
+
   {% include "partials/contact-list.html" %}
 </div>
 

@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from . models import *
 from django.db.models import Q
+from contacts.forms import *
+from django.views.decorators.http import require_http_methods
+from django.http import HttpResponseBadRequest
+import pdb
 
 
 # Create your views here.
@@ -9,7 +13,9 @@ from django.db.models import Q
 def index(request):
     contacts = request.user.contacts.all().order_by('-created_at')
     print(contacts)
-    context = {"contacts": contacts}
+    context = {"contacts": contacts,
+               "form": ContactForm()
+               }
     return render(request, 'contacts.html', context)
 
 
@@ -26,3 +32,22 @@ def search_contact(request):
     context = {'contacts': contacts}
 
     return render(request, 'partials/contact-list.html', context)
+
+@login_required
+@require_http_methods(['POST'])
+def create_contact(request):
+    # pdb.set_trace() 
+    form = ContactForm(request.POST)
+    if form.is_valid():
+        contact = form.save(commit=False) #dont save form directly associate the user with this first
+        contact.user = request.user
+        contact.save()  
+        #return partial containing a new row of our user
+        #than we can add to the 
+        context = {
+            'contact': contact
+        }
+        response =  render(request, 'partials/contact-row.html', context)
+        response['HX-Trigger'] = 'contact-success'
+        return response
+    return HttpResponseBadRequest("Invalid form submission.")
